@@ -10,7 +10,9 @@ module.exports = {
         "moon-deepblue": "#132456",
         "moon-pink": "#ff03f8",
         "moon-salmon": "#e76e6b",
-        "moon-lightblue": "#69e9f1"
+        "moon-lightblue": "#69e9f1",
+        "calendar-deepblue":"#101829",
+        "calendar-deepblue-hover":"#182133"
       },
       fontFamily: {
         Montserrat: ["Montserrat", "sans-serif"],

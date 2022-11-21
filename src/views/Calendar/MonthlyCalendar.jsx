@@ -137,36 +137,36 @@ export default function MonthlyCalendar() {
   return (
     <div className="overflow-hidden rounded-lg">
       <div className="rounded-xl shadow  ring-1 ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
-        <div className="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none">
-          <div className="bg-white py-2">
+        <div className="grid grid-cols-7 gap-px border-b border-gray-600 bg-calendar-deepblue text-center text-xs font-semibold leading-6 text-moon-gold lg:flex-none">
+          <div className="bg-calendar-deepblue py-2">
             M<span className="sr-only sm:not-sr-only">on</span>
           </div>
-          <div className="bg-white py-2">
+          <div className="bg-calendar-deepblue py-2">
             T<span className="sr-only sm:not-sr-only">ue</span>
           </div>
-          <div className="bg-white py-2">
+          <div className="bg-calendar-deepblue py-2">
             W<span className="sr-only sm:not-sr-only">ed</span>
           </div>
-          <div className="bg-white py-2">
+          <div className="bg-calendar-deepblue py-2">
             T<span className="sr-only sm:not-sr-only">hu</span>
           </div>
-          <div className="bg-white py-2">
+          <div className="bg-calendar-deepblue py-2">
             F<span className="sr-only sm:not-sr-only">ri</span>
           </div>
-          <div className="bg-white py-2">
+          <div className="bg-calendar-deepblue py-2">
             S<span className="sr-only sm:not-sr-only">at</span>
           </div>
-          <div className="bg-white py-2">
+          <div className="bg-calendar-deepblue py-2">
             S<span className="sr-only sm:not-sr-only">un</span>
           </div>
         </div>
-        <div className="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto">
+        <div className="flex bg-gray-600 text-xs leading-6 text-gray-200 lg:flex-auto">
           <div className="hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
             {days.map((day) => (
               <div
                 key={day.date}
                 className={classNames(
-                  day.isCurrentMonth ? "bg-white" : "bg-gray-50 text-gray-500",
+                  day.isCurrentMonth ? "bg-calendar-deepblue" : "bg-calendar-deepblue-hover text-gray-200",
                   "relative py-2 px-3"
                 )}
               >
@@ -185,7 +185,7 @@ export default function MonthlyCalendar() {
                     {day.events.slice(0, 2).map((event) => (
                       <li key={event.id}>
                         <a href={event.href} className="group flex">
-                          <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-indigo-600">
+                          <p className="flex-auto truncate font-medium text-gray-400 group-hover:text-indigo-600">
                             {event.name}
                           </p>
                           <time
@@ -198,7 +198,7 @@ export default function MonthlyCalendar() {
                       </li>
                     ))}
                     {day.events.length > 2 && (
-                      <li className="text-gray-500">
+                      <li className="text-gray-200">
                         + {day.events.length - 2} more
                       </li>
                     )}
@@ -213,19 +213,19 @@ export default function MonthlyCalendar() {
                 key={day.date}
                 type="button"
                 className={classNames(
-                  day.isCurrentMonth ? "bg-white" : "bg-gray-50",
+                  day.isCurrentMonth ? "bg-calendar-deepblue" : "bg-calendar-deepblue-hover",
                   (day.isSelected || day.isToday) && "font-semibold",
                   day.isSelected && "text-white",
-                  !day.isSelected && day.isToday && "text-indigo-600",
+                  !day.isSelected && day.isToday && "text-moon-gold",
                   !day.isSelected &&
                     day.isCurrentMonth &&
                     !day.isToday &&
-                    "text-gray-900",
+                    "text-gray-400",
                   !day.isSelected &&
                     !day.isCurrentMonth &&
                     !day.isToday &&
                     "text-gray-500",
-                  "flex h-14 flex-col py-2 px-3 hover:bg-gray-100 focus:z-10"
+                  "flex h-14 flex-col py-2 px-3 hover:bg-calendar-deepblue-hover focus:z-10"
                 )}
               >
                 <time
@@ -256,7 +256,6 @@ export default function MonthlyCalendar() {
           </div>
         </div>
       </div>
-      <div></div>
     </div>
   );
 }
