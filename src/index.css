@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Open+Sans:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  scroll-behavior: smooth;
+  transition: all;
+  transition-duration: 200ms;
+}
+
+:root {
+  font-family: Open Sans, Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+@font-face {
+  font-family: "Good Times";
+  src: url("./assets/fonts/goodtimesrg.otf") format("opentype");
+}
+
+.stars-dark {
+  background: url("./assets/star-background.png") repeat, linear-gradient(to right, rgb(14, 15, 15), rgb(15, 12, 36), rgb(13, 0, 31));
+}
+
+.stars-light {
+  background: url("./assets/star-background.png") repeat, linear-gradient(to right, rgb(184, 186, 235), #ade7c5, rgb(141, 177, 212));
+}
+
+@layer utilities {
+  .loading-component {
+    @apply cursor-wait select-none rounded-2xl bg-emerald-100 shadow-none hover:scale-100 dark:bg-slate-800 !important;
+  }
+  .loading-line {
+    @apply animate-pulse select-none rounded-lg bg-emerald-700 fill-current stroke-current text-emerald-700 hover:scale-100 dark:bg-indigo-600 dark:text-indigo-600 !important;
+  }
+
+  .dark-glass {
+    @apply bg-black bg-opacity-[0.15] backdrop-blur-[0.5px] backdrop-filter;
+  }
+
+  .light-glass {
+    @apply bg-gray-200 bg-opacity-20 backdrop-blur-[0.5px] backdrop-filter;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-blue-800 to-slate-800 bg-clip-text text-transparent dark:from-white dark:to-moon-gold;
+  }
+
+  .link {
+    @apply whitespace-pre-wrap font-semibold text-yellow-600 underline hover:text-yellow-500 dark:text-moon-gold dark:hover:text-amber-300;
+  }
+
+  .blur-background {
+    @apply absolute -inset-0.5 bg-gradient-to-br from-blue-300 to-blue-200 blur dark:from-indigo-100 dark:to-indigo-400;
+  }
+
+  .component-background {
+    @apply relative bg-gradient-to-br from-zinc-200 via-gray-100 to-white dark:from-black dark:via-slate-900 dark:to-slate-900;
+  }
+}
+
+.rows {
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
