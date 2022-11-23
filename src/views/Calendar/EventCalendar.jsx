@@ -9,6 +9,8 @@ import {
 } from "@heroicons/react/20/solid";
 import { Menu, Transition } from "@headlessui/react";
 import MonthlyCalendar from "./MonthlyCalendar";
+import WeeklyCalendar from "./WeeklyCalendar";
+
 
 const days = [
   { date: "2021-12-27", events: [] },
@@ -201,21 +203,6 @@ export default function EventCalendar() {
                             "block px-4 py-2 text-sm"
                           )}
                         >
-                          Day view
-                        </a>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href="#"
-                          className={classNames(
-                            active
-                              ? "bg-gray-100 text-gray-900"
-                              : "text-gray-700",
-                            "block px-4 py-2 text-sm"
-                          )}
-                        >
                           Week view
                         </a>
                       )}
@@ -323,7 +310,9 @@ export default function EventCalendar() {
       </header>
 
       {/* Calendar */}
-      <MonthlyCalendar />
+      {/* <MonthlyCalendar /> */}
+      <WeeklyCalendar/>
+      
 
       {/* Bottom list */}
       {selectedDay?.events.length > 0 && (
