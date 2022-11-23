@@ -3,6 +3,7 @@ import {
 } from "@heroicons/react/20/solid";
 import WeeklyCalendar from "./WeeklyCalendar";
 import CalendarHeader from "./CalendarHeader";
+import MonthlyCalendar from "./MonthlyCalendar"
 
 
 const days = [
