@@ -134,6 +134,8 @@ function classNames(...classes) {
 export default function EventCalendar() {
 
   const [monthlyView, setMonthlyView] = useState(true);
+  const calendarLink  = "https://sesh.fyi/api/calendar/v2/1NtkbbR6C4pu9nfgPwPGQn.ics";
+
 
   useEffect(() => {
     // Run! Like go get some data from an API.
@@ -141,7 +143,7 @@ export default function EventCalendar() {
     var request = new XMLHttpRequest();
     request.open(
       "GET",
-      "https://sesh.fyi/api/calendar/v2/1NtkbbR6C4pu9nfgPwPGQn.ics",
+      calendarLink,
       true
     );
     request.send(null);
@@ -175,7 +177,7 @@ export default function EventCalendar() {
   return (
     <div className="px-10 py-5 lg:flex  lg:h-full lg:flex-col lg:px-20">
 
-      <CalendarHeader monthlyView={monthlyView} setMonthlyView={setMonthlyView}/>
+      <CalendarHeader monthlyView={monthlyView} setMonthlyView={setMonthlyView} calendarLink={calendarLink}/>
 
       {/* Calendar */}
       

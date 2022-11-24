@@ -12,7 +12,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
 
-export default function CalendarHeader({monthlyView, setMonthlyView}) {
+export default function CalendarHeader({monthlyView, setMonthlyView, calendarLink}) {
     return (  
         
 <header className="flex items-center justify-between  py-4 px-6 lg:flex-none">
@@ -112,8 +112,9 @@ export default function CalendarHeader({monthlyView, setMonthlyView}) {
         <button
           type="button"
           className="flex items-center ml-6 rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          onClick={() => {navigator.clipboard.writeText(calendarLink)}}
         >
-          Copy calendar
+          Copy calendar link
           <LinkIcon
             className="ml-2 h-5 w-5 text-gray-200"
             aria-hidden="true"
