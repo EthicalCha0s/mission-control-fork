@@ -4,7 +4,7 @@ import {
 import WeeklyCalendar from "./WeeklyCalendar";
 import CalendarHeader from "./CalendarHeader";
 import MonthlyCalendar from "./MonthlyCalendar"
-
+import { useState } from "react";
 
 const days = [
   { date: "2021-12-27", events: [] },
@@ -132,14 +132,17 @@ function classNames(...classes) {
 }
 
 export default function EventCalendar() {
+
+  const [monthlyView, setMonthlyView] = useState(true);
+
   return (
     <div className="px-10 py-5 lg:flex  lg:h-full lg:flex-col lg:px-20">
 
-      <CalendarHeader/>
+      <CalendarHeader monthlyView={monthlyView} setMonthlyView={setMonthlyView}/>
 
       {/* Calendar */}
-      {/* <MonthlyCalendar /> */}
-      <WeeklyCalendar/>
+      
+      {monthlyView? <MonthlyCalendar />:<WeeklyCalendar/>}
       
 
       {/* Bottom list */}

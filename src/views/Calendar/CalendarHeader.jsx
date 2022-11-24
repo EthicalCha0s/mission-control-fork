@@ -12,7 +12,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
 
-export default function CalendarHeader() {
+export default function CalendarHeader({monthlyView, setMonthlyView}) {
     return (  
         
 <header className="flex items-center justify-between  py-4 px-6 lg:flex-none">
@@ -49,7 +49,10 @@ export default function CalendarHeader() {
             type="button"
             className="flex items-center rounded-md border border-gray-300 bg-white py-2 pl-3 pr-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
           >
-            Month view
+            {
+              monthlyView?
+              "Month view":"Week View"
+            }
             <ChevronDownIcon
               className="ml-2 h-5 w-5 text-gray-400"
               aria-hidden="true"
@@ -69,32 +72,36 @@ export default function CalendarHeader() {
               <div>
                 <Menu.Item>
                   {({ active }) => (
-                    <a
-                      href="#"
+                    <button
                       className={classNames(
                         active
                           ? "bg-gray-100 text-gray-900"
                           : "text-gray-700",
-                        "block px-4 py-2 text-sm"
+                        "block px-4 py-2 text-sm w-full"
                       )}
+                      onClick={() => setMonthlyView(false)}
                     >
                       Week view
-                    </a>
+                    </button>
                   )}
                 </Menu.Item>
                 <Menu.Item>
                   {({ active }) => (
-                    <a
-                      href="#"
+                    <button
                       className={classNames(
                         active
                           ? "bg-gray-100 text-gray-900"
                           : "text-gray-700",
-                        "block px-4 py-2 text-sm"
+                        "block px-4 py-2 text-sm w-full"
                       )}
+                      onClick={() => {
+                        console.log("Git mnobt", monthlyView);
+                        setMonthlyView(true);
+                        console.log(monthlyView);
+                      }}
                     >
-                      Month view
-                    </a>
+                      Month views
+                    </button>
                   )}
                 </Menu.Item>
               </div>
@@ -132,49 +139,50 @@ export default function CalendarHeader() {
             <div className="py-1">
               <Menu.Item>
                 {({ active }) => (
-                  <a
-                    href="#"
+                  <button
                     className={classNames(
                       active
                         ? "bg-gray-100 text-gray-900"
                         : "text-gray-700",
-                      "block px-4 py-2 text-sm"
+                      "block px-4 py-2 text-sm w-full"
                     )}
                   >
                     Go to today
-                  </a>
+                  </button>
                 )}
               </Menu.Item>
             </div>
             <div className="py-1">
               <Menu.Item>
                 {({ active }) => (
-                  <a
+                  <button
                     href="#"
                     className={classNames(
                       active
                         ? "bg-gray-100 text-gray-900"
                         : "text-gray-700",
-                      "block px-4 py-2 text-sm"
+                      "block px-4 py-2 text-sm w-full"
                     )}
+                    onClick={() => setMonthlyView(false)}
                   >
                     Day view
-                  </a>
+                  </button>
                 )}
               </Menu.Item>
               <Menu.Item>
                 {({ active }) => (
-                  <a
+                  <button
                     href="#"
                     className={classNames(
                       active
                         ? "bg-gray-100 text-gray-900"
                         : "text-gray-700",
-                      "block px-4 py-2 text-sm"
+                      "block px-4 py-2 text-sm w-full"
                     )}
+                    onClick={() => setMonthlyView(true)}
                   >
-                    Week view
-                  </a>
+                    Month view
+                  </button>
                 )}
               </Menu.Item>
             </div>
