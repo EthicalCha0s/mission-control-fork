@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -7,6 +6,8 @@ import {
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
 import { Menu, Transition } from "@headlessui/react";
+import {getMonth, startOfWeek} from "date-fns";
+import { useEffect } from "react";
 
 const days = [
   { date: "2021-12-27", events: [] },
@@ -129,11 +130,36 @@ const days = [
 ];
 const selectedDay = days.find((day) => day.isSelected);
 
+
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function MonthlyCalendar() {
+export default function MonthlyCalendar({selectedDate, events}) {
+
+
+
+  function renderDays(){
+    const dateFormat = "dddd";
+    const days = []
+
+    let startDate = startOfWeek(getMonth(selectedDate));    
+    console.log("month", getMonth(selectedDate))
+
+
+    console.log("day", selectedDate)
+
+    console.log("start of week", startDate);
+
+    // return <></>
+  }
+
+  useEffect(() => {
+    renderDays()
+  },[]);
+  
+
   return (
     <div className="overflow-hidden rounded-3xl">
       <div className="rounded-xl shadow  ring-1 ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">

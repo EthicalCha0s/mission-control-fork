@@ -7,17 +7,32 @@ import {
   LinkIcon,
 } from "@heroicons/react/20/solid";
 import { Menu, Transition } from "@headlessui/react";
+import {getMonth, getYear, addMonths, isToday, toDate, format} from "date-fns";
+
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
 
-export default function CalendarHeader({monthlyView, setMonthlyView, calendarLink}) {
-    return (  
-        
+export default function CalendarHeader({selectedDate, setSelectedDate, isMonthlyView, setIsMonthlyView, calendarLink, monthNames}) {
+
+  function getMonthHeader(){
+    return monthNames[getMonth(selectedDate)] + " " + getYear(selectedDate);
+  }
+
+  const nextMonth = () => {
+    setSelectedDate(addMonths(selectedDate, 1));
+  };
+  
+  const prevMonth = () => {
+    setSelectedDate(addMonths(selectedDate, -1));
+  };
+
+
+  return (        
 <header className="flex items-center justify-between  py-4 px-6 lg:flex-none">
     <h1 className="text-lg font-semibold text-gray-200">
-      <time dateTime="2022-01">January 2022</time>
+      <time dateTime="2022-01">{getMonthHeader()}</time>
     </h1>
     <div className="flex items-center">
       <div className="flex items-center rounded-md shadow-sm md:items-stretch">
@@ -26,13 +41,13 @@ export default function CalendarHeader({monthlyView, setMonthlyView, calendarLin
           className="flex items-center justify-center rounded-l-md border border-r-0 border-gray-300 bg-white py-2 pl-3 pr-4 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
         >
           <span className="sr-only">Previous month</span>
-          <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+          <ChevronLeftIcon className="h-5 w-5" aria-hidden="true"  onClick={() => prevMonth()} />
         </button>
         <button
           type="button"
           className="hidden border-t border-b border-gray-300 bg-white px-3.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 focus:relative md:block"
         >
-          Today
+          {isToday(selectedDate) ? "Today": format(toDate(selectedDate), "iiii dd MMMM")}
         </button>
         <span className="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
         <button
@@ -40,7 +55,7 @@ export default function CalendarHeader({monthlyView, setMonthlyView, calendarLin
           className="flex items-center justify-center rounded-r-md border border-l-0 border-gray-300 bg-white py-2 pl-4 pr-3 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
         >
           <span className="sr-only">Next month</span>
-          <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+          <ChevronRightIcon className="h-5 w-5" aria-hidden="true"  onClick={() => nextMonth()} />
         </button>
       </div>
       <div className="hidden md:ml-4 md:flex md:items-center">
@@ -50,7 +65,7 @@ export default function CalendarHeader({monthlyView, setMonthlyView, calendarLin
             className="flex items-center rounded-md border border-gray-300 bg-white py-2 pl-3 pr-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
           >
             {
-              monthlyView?
+              isMonthlyView?
               "Month view":"Week View"
             }
             <ChevronDownIcon
@@ -79,7 +94,7 @@ export default function CalendarHeader({monthlyView, setMonthlyView, calendarLin
                           : "text-gray-700",
                         "block px-4 py-2 text-sm w-full"
                       )}
-                      onClick={() => setMonthlyView(false)}
+                      onClick={() => setIsMonthlyView(false)}
                     >
                       Week view
                     </button>
@@ -95,12 +110,12 @@ export default function CalendarHeader({monthlyView, setMonthlyView, calendarLin
                         "block px-4 py-2 text-sm w-full"
                       )}
                       onClick={() => {
-                        console.log("Git mnobt", monthlyView);
-                        setMonthlyView(true);
-                        console.log(monthlyView);
+                        console.log("Git mnobt", isMonthlyView);
+                        setIsMonthlyView(true);
+                        console.log(isMonthlyView);
                       }}
                     >
-                      Month views
+                      Month view
                     </button>
                   )}
                 </Menu.Item>
@@ -164,7 +179,7 @@ export default function CalendarHeader({monthlyView, setMonthlyView, calendarLin
                         : "text-gray-700",
                       "block px-4 py-2 text-sm w-full"
                     )}
-                    onClick={() => setMonthlyView(false)}
+                    onClick={() => setIsMonthlyView(false)}
                   >
                     Day view
                   </button>
@@ -180,7 +195,7 @@ export default function CalendarHeader({monthlyView, setMonthlyView, calendarLin
                         : "text-gray-700",
                       "block px-4 py-2 text-sm w-full"
                     )}
-                    onClick={() => setMonthlyView(true)}
+                    onClick={() => setIsMonthlyView(true)}
                   >
                     Month view
                   </button>

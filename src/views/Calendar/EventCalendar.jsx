@@ -133,13 +133,16 @@ function classNames(...classes) {
 
 export default function EventCalendar() {
 
-  const [monthlyView, setMonthlyView] = useState(true);
+  const [isMonthlyView, setIsMonthlyView] = useState(true);
+  const [calendarEvents, setCalendarEvents] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
   const calendarLink  = "https://sesh.fyi/api/calendar/v2/1NtkbbR6C4pu9nfgPwPGQn.ics";
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
 
 
-  useEffect(() => {
-    // Run! Like go get some data from an API.
-    console.log("Useffect")
+  function getEventData(){
     var request = new XMLHttpRequest();
     request.open(
       "GET",
@@ -168,20 +171,25 @@ export default function EventCalendar() {
             }
           }
           console.log("Events",events);
+          setCalendarEvents(events)
         }
       }
     };
-  });
+  }
 
+  useEffect(() => {
+    getEventData()
+    console.log("Selected date:", selectedDate)
+  },[]);
 
   return (
     <div className="px-10 py-5 lg:flex  lg:h-full lg:flex-col lg:px-20">
 
-      <CalendarHeader monthlyView={monthlyView} setMonthlyView={setMonthlyView} calendarLink={calendarLink}/>
+      <CalendarHeader selectedDate={selectedDate} setSelectedDate={setSelectedDate} isMonthlyView={isMonthlyView} setIsMonthlyView={setIsMonthlyView} calendarLink={calendarLink} monthNames={monthNames}/>
 
       {/* Calendar */}
       
-      {monthlyView? <MonthlyCalendar />:<WeeklyCalendar/>}
+      {isMonthlyView? <MonthlyCalendar selectedDate={selectedDate} events={calendarEvents} />:<WeeklyCalendar selectedDate={selectedDate} events={calendarEvents} />}
       
 
       {/* Bottom list */}
