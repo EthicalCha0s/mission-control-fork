@@ -16,10 +16,6 @@ function classNames(...classes) {
 
 export default function CalendarHeader({selectedDate, setSelectedDate, isMonthlyView, setIsMonthlyView, calendarLink, monthNames}) {
 
-  function getMonthHeader(){
-    return monthNames[getMonth(selectedDate)] + " " + getYear(selectedDate);
-  }
-
   const nextMonth = () => {
     setSelectedDate(addMonths(selectedDate, 1));
   };
@@ -32,7 +28,7 @@ export default function CalendarHeader({selectedDate, setSelectedDate, isMonthly
   return (        
 <header className="flex items-center justify-between  py-4 px-6 lg:flex-none">
     <h1 className="text-lg font-semibold text-gray-200">
-      <time dateTime="2022-01">{getMonthHeader()}</time>
+      <time dateTime="2022-01">{format(selectedDate, "MMMM yyyy")}</time>
     </h1>
     <div className="flex items-center">
       <div className="flex items-center rounded-md shadow-sm md:items-stretch">
@@ -47,7 +43,7 @@ export default function CalendarHeader({selectedDate, setSelectedDate, isMonthly
           type="button"
           className="hidden border-t border-b border-gray-300 bg-white px-3.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 focus:relative md:block"
         >
-          {isToday(selectedDate) ? "Today": format(toDate(selectedDate), "iiii dd MMMM")}
+          {isToday(selectedDate) ? "Today": format(selectedDate, "iiii dd MMMM")}
         </button>
         <span className="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
         <button
