@@ -170,7 +170,6 @@ export default function EventCalendar() {
               events_i++;
             }
           }
-          console.log("Events",events);
           setCalendarEvents(events)
         }
       }
