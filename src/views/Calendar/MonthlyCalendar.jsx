@@ -6,159 +6,91 @@ import {
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
 import { Menu, Transition } from "@headlessui/react";
-import {getMonth, startOfWeek} from "date-fns";
+import {
+  addDays,
+  getDay,
+  getDate,
+  getMonth,
+  getYear,
+  startOfWeek,
+  endOfWeek,
+  lastDayOfMonth,
+  startOfMonth,
+  isSameMonth,
+  isToday,
+  setMonth,
+  isSameDay,
+  parseISO,
+  format
+} from "date-fns";
 import { useEffect } from "react";
-
-const days = [
-  { date: "2021-12-27", events: [] },
-  { date: "2021-12-28", events: [] },
-  { date: "2021-12-29", events: [] },
-  { date: "2021-12-30", events: [] },
-  { date: "2021-12-31", events: [] },
-  { date: "2022-01-01", isCurrentMonth: true, events: [] },
-  { date: "2022-01-02", isCurrentMonth: true, events: [] },
-  {
-    date: "2022-01-03",
-    isCurrentMonth: true,
-    events: [
-      {
-        id: 1,
-        name: "Design review",
-        time: "10AM",
-        datetime: "2022-01-03T10:00",
-        href: "#",
-      },
-      {
-        id: 2,
-        name: "Sales meeting",
-        time: "2PM",
-        datetime: "2022-01-03T14:00",
-        href: "#",
-      },
-    ],
-  },
-  { date: "2022-01-04", isCurrentMonth: true, events: [] },
-  { date: "2022-01-05", isCurrentMonth: true, events: [] },
-  { date: "2022-01-06", isCurrentMonth: true, events: [] },
-  {
-    date: "2022-01-07",
-    isCurrentMonth: true,
-    events: [
-      {
-        id: 3,
-        name: "Date night",
-        time: "6PM",
-        datetime: "2022-01-08T18:00",
-        href: "#",
-      },
-    ],
-  },
-  { date: "2022-01-08", isCurrentMonth: true, events: [] },
-  { date: "2022-01-09", isCurrentMonth: true, events: [] },
-  { date: "2022-01-10", isCurrentMonth: true, events: [] },
-  { date: "2022-01-11", isCurrentMonth: true, events: [] },
-  {
-    date: "2022-01-12",
-    isCurrentMonth: true,
-    isToday: true,
-    events: [
-      {
-        id: 6,
-        name: "Sam's birthday party",
-        time: "2PM",
-        datetime: "2022-01-25T14:00",
-        href: "#",
-      },
-    ],
-  },
-  { date: "2022-01-13", isCurrentMonth: true, events: [] },
-  { date: "2022-01-14", isCurrentMonth: true, events: [] },
-  { date: "2022-01-15", isCurrentMonth: true, events: [] },
-  { date: "2022-01-16", isCurrentMonth: true, events: [] },
-  { date: "2022-01-17", isCurrentMonth: true, events: [] },
-  { date: "2022-01-18", isCurrentMonth: true, events: [] },
-  { date: "2022-01-19", isCurrentMonth: true, events: [] },
-  { date: "2022-01-20", isCurrentMonth: true, events: [] },
-  { date: "2022-01-21", isCurrentMonth: true, events: [] },
-  {
-    date: "2022-01-22",
-    isCurrentMonth: true,
-    isSelected: true,
-    events: [
-      {
-        id: 4,
-        name: "Maple syrup museum",
-        time: "3PM",
-        datetime: "2022-01-22T15:00",
-        href: "#",
-      },
-      {
-        id: 5,
-        name: "Hockey game",
-        time: "7PM",
-        datetime: "2022-01-22T19:00",
-        href: "#",
-      },
-    ],
-  },
-  { date: "2022-01-23", isCurrentMonth: true, events: [] },
-  { date: "2022-01-24", isCurrentMonth: true, events: [] },
-  { date: "2022-01-25", isCurrentMonth: true, events: [] },
-  { date: "2022-01-26", isCurrentMonth: true, events: [] },
-  { date: "2022-01-27", isCurrentMonth: true, events: [] },
-  { date: "2022-01-28", isCurrentMonth: true, events: [] },
-  { date: "2022-01-29", isCurrentMonth: true, events: [] },
-  { date: "2022-01-30", isCurrentMonth: true, events: [] },
-  { date: "2022-01-31", isCurrentMonth: true, events: [] },
-  { date: "2022-02-01", events: [] },
-  { date: "2022-02-02", events: [] },
-  {
-    date: "2022-02-03",
-    events: [
-      {
-        id: 7,
-        name: "Cinema with friends",
-        time: "9PM",
-        datetime: "2022-02-04T21:00",
-        href: "#",
-      },
-    ],
-  },
-  { date: "2022-02-04", events: [] },
-  { date: "2022-02-05", events: [] },
-  { date: "2022-02-06", events: [] },
-];
-const selectedDay = days.find((day) => day.isSelected);
-
-
+import { useState } from "react";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function MonthlyCalendar({selectedDate, events}) {
+function getNextMonday(date) {
+  while (getDay(date) != 1) {
+    date = addDays(date, 1);
+  }
+  return date;
+}
+
+function getNextSunday(date) {
+  while (getDay(date) != 0) {
+    date = addDays(date, 1);
+  }
+  return date;
+}
 
 
+export default function MonthlyCalendar({ selectedDate, events }) {
 
-  function renderDays(){
-    const dateFormat = "dddd";
-    const days = []
+  const [monthEvents, setMonthEvents] = useState([]);
 
-    let startDate = startOfWeek(getMonth(selectedDate));    
-    console.log("month", getMonth(selectedDate))
+  function getDayEvents(date) {  
+    if (events == null)
+      return date;
+  
+    date.events = [];
+  
+    for(var i = 0; i < 10; i++){
+      events[i].date = events[i].date.replace(/(\r\n|\n|\r)/gm, "");
 
+      var eventDate = parseISO(events[i].date);
 
-    console.log("day", selectedDate)
+      if(isSameDay(eventDate, date)){
+        date.events.push(events[i]);
+        console.log(date, events[i])
+        console.log(date, date.events)
+        console.log(events[i].date + events[i].title)
+      }
+    }
+    
+    return date.events;
+  }
+  
 
-    console.log("start of week", startDate);
+  function getMonthEvents(){
+    const days = [];
 
-    // return <></>
+    let startDate = getNextMonday(startOfWeek(startOfMonth(selectedDate)));
+    let endDate = getNextSunday(endOfWeek(lastDayOfMonth(selectedDate)));
+    let day = startDate;
+
+    while (day <= endDate) {
+      day.events = getDayEvents(day);
+      days.push(day);
+      day = addDays(day, 1);
+    }
+
+    return(days);
   }
 
   useEffect(() => {
-    renderDays()
-  },[]);
-  
+    setMonthEvents(getMonthEvents())
+  }, [selectedDate]);
 
   return (
     <div className="overflow-hidden rounded-3xl">
@@ -187,38 +119,40 @@ export default function MonthlyCalendar({selectedDate, events}) {
           </div>
         </div>
         <div className="flex bg-gray-600 text-xs leading-6 text-gray-200 lg:flex-auto">
-          <div className="hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
-            {days.map((day) => (
+          <div className="hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-5 lg:gap-px">
+         {monthEvents.map((day) => (   
               <div
-                key={day.date}
+                key={day.toString()}
                 className={classNames(
-                  day.isCurrentMonth ? "bg-calendar-deepblue" : "bg-calendar-deepblue-hover text-gray-200",
+                  isSameMonth(day, selectedDate)
+                    ? "bg-calendar-deepblue"
+                    : "bg-calendar-deepblue-hover text-gray-200",
                   "relative py-2 px-3"
                 )}
               >
                 <time
-                  dateTime={day.date}
+                  dateTime={day.toString()}
                   className={
-                    day.isToday
+                    isToday(day)
                       ? "flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white"
                       : undefined
                   }
                 >
-                  {day.date.split("-").pop().replace(/^0/, "")}
+                  {getDate(day)}
                 </time>
                 {day.events.length > 0 && (
                   <ol className="mt-2">
                     {day.events.slice(0, 2).map((event) => (
-                      <li key={event.id}>
+                      <li key={event.date + event.title}>
                         <a href={event.href} className="group flex">
                           <p className="flex-auto truncate font-medium text-gray-400 group-hover:text-indigo-600">
-                            {event.name}
+                            {event.title}
                           </p>
                           <time
-                            dateTime={event.datetime}
+                            dateTime={event.date}
                             className="ml-3 hidden flex-none text-gray-500 group-hover:text-indigo-600 xl:block"
                           >
-                            {event.time}
+                            {format( parseISO(event.date), "hh:mm aaaaa'm'")} 
                           </time>
                         </a>
                       </li>
@@ -231,40 +165,42 @@ export default function MonthlyCalendar({selectedDate, events}) {
                   </ol>
                 )}
               </div>
-            ))}
-          </div>
-          <div className="isolate grid w-full grid-cols-7 grid-rows-6 gap-px lg:hidden">
-            {days.map((day) => (
+            ))} 
+            </div>
+          <div className="isolate grid w-full grid-cols-7 grid-rows-5 gap-px lg:hidden">
+            {monthEvents.map((day) => (
               <button
-                key={day.date}
+                key={day.toString()}
                 type="button"
                 className={classNames(
-                  day.isCurrentMonth ? "bg-calendar-deepblue" : "bg-calendar-deepblue-hover",
-                  (day.isSelected || day.isToday) && "font-semibold",
+                  isSameMonth(day, selectedDate)
+                    ? "bg-calendar-deepblue"
+                    : "bg-calendar-deepblue-hover",
+                  (day.isSelected || isToday(day)) && "font-semibold",
                   day.isSelected && "text-white",
-                  !day.isSelected && day.isToday && "text-moon-gold",
+                  !day.isSelected && isToday(day) && "text-moon-gold",
                   !day.isSelected &&
-                    day.isCurrentMonth &&
-                    !day.isToday &&
+                    isSameMonth(day, selectedDate) &&
+                    !isToday(day) &&
                     "text-gray-400",
                   !day.isSelected &&
-                    !day.isCurrentMonth &&
-                    !day.isToday &&
+                    !isSameMonth(day, selectedDate) &&
+                    !isToday(day) &&
                     "text-gray-500",
                   "flex h-14 flex-col py-2 px-3 hover:bg-calendar-deepblue-hover focus:z-10"
                 )}
               >
                 <time
-                  dateTime={day.date}
+                  dateTime={day.toString()}
                   className={classNames(
                     day.isSelected &&
                       "flex h-6 w-6 items-center justify-center rounded-full",
-                    day.isSelected && day.isToday && "bg-indigo-600",
-                    day.isSelected && !day.isToday && "bg-gray-900",
+                    day.isSelected && isToday(day) && "bg-indigo-600",
+                    day.isSelected && !isToday(day) && "bg-gray-900",
                     "ml-auto"
                   )}
                 >
-                  {day.date.split("-").pop().replace(/^0/, "")}
+                  {day.toString().split("-").pop().replace(/^0/, "")}
                 </time>
                 <span className="sr-only">{day.events.length} events</span>
                 {day.events.length > 0 && (
