@@ -140,7 +140,7 @@ export default function MonthlyCalendar({ selectedDate, events }) {
                 >
                   {getDate(day)}
                 </time>
-                {day.events.length > 0 && (
+                {day.events.length > 0  ? (
                   <ol className="mt-2">
                     {day.events.slice(0, 2).map((event) => (
                       <li key={event.date + event.title}>
@@ -163,7 +163,7 @@ export default function MonthlyCalendar({ selectedDate, events }) {
                       </li>
                     )}
                   </ol>
-                )}
+                ): (<div className="py-10"/>)}
               </div>
             ))} 
             </div>
