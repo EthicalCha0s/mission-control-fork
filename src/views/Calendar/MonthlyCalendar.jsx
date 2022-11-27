@@ -8,6 +8,7 @@ import {
 import { Menu, Transition } from "@headlessui/react";
 import {
   addDays,
+  subDays,
   getDay,
   getDate,
   getMonth,
@@ -30,15 +31,17 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-function getNextMonday(date) {
+function getLastMonday(date) {
   while (getDay(date) != 1) {
-    date = addDays(date, 1);
+    console.log("subdays", date, getDay(date))
+    date = subDays(date, 1);
   }
   return date;
 }
 
 function getNextSunday(date) {
   while (getDay(date) != 0) {
+    console.log("addDays", date, getDay(date))
     date = addDays(date, 1);
   }
   return date;
@@ -75,8 +78,12 @@ export default function MonthlyCalendar({ selectedDate, events }) {
   function getMonthEvents(){
     const days = [];
 
-    let startDate = getNextMonday(startOfWeek(startOfMonth(selectedDate)));
-    let endDate = getNextSunday(endOfWeek(lastDayOfMonth(selectedDate)));
+    let startDate = getLastMonday(startOfWeek(startOfMonth(selectedDate), {weekStartsOn:1}));
+    let endDate = getNextSunday(endOfWeek(lastDayOfMonth(selectedDate), {weekStartsOn:1}));
+    console.log("enddate:",endDate)
+    console.log("seldate:", selectedDate)
+    console.log("lastdayMonth", lastDayOfMonth(selectedDate), endOfWeek(lastDayOfMonth(selectedDate)), getNextSunday(endOfWeek(lastDayOfMonth(selectedDate))) )
+
     let day = startDate;
 
     while (day <= endDate) {
