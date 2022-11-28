@@ -192,18 +192,16 @@ export default function MonthlyCalendar({ selectedDate, setSelectedDate, events 
                     "text-gray-500",
                   "flex h-14 flex-col py-2 px-3 hover:bg-calendar-deepblue-hover focus:z-10"
                 )}
+                onClick={() => {setSelectedDate(day)}}
               >
                 <time
                   dateTime={day.toString()}
                   className={classNames(
-                    day.isSelected &&
-                      "flex h-6 w-6 items-center justify-center rounded-full",
-                    day.isSelected && isToday(day) && "bg-indigo-600",
-                    day.isSelected && !isToday(day) && "bg-gray-900",
-                    "ml-auto"
+                    isSameDay(day, selectedDate)? "flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white" :
+                      "flex h-6 w-6 items-center justify-center rounded-full","ml-auto"
                   )}
                 >
-                  {day.toString().split("-").pop().replace(/^0/, "")}
+                  {getDate(day)} {/* {day.toString().split("-").pop().replace(/^0/, "")} */}
                 </time>
                 <span className="sr-only">{day.events.length} events</span>
                 {day.events.length > 0 && (
