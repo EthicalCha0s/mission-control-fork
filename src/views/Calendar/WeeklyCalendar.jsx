@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -6,12 +6,32 @@ import {
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
 import { Menu, Transition } from "@headlessui/react";
+import {
+  addDays,
+  subDays,
+  getDay,
+  getDate,
+  getMonth,
+  getYear,
+  startOfWeek,
+  endOfWeek,
+  lastDayOfMonth,
+  startOfMonth,
+  isSameMonth,
+  isToday,
+  setMonth,
+  isSameDay,
+  parseISO,
+  format,
+} from "date-fns";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function WeeklyCalendar() {
+export default function WeeklyCalendar({ selectedDate, setSelectedDate, events }) {
+  const [weekDays, setWeekDays] = useState([]);
+
   const container = useRef(null);
   const containerNav = useRef(null);
   const containerOffset = useRef(null);
@@ -27,9 +47,6 @@ export default function WeeklyCalendar() {
   }, []);
 
   const drawEventCard = (timestamp, title) => {
-
-
-
     return (
       <li
         className="relative mt-px flex sm:col-start-3"
@@ -48,11 +65,52 @@ export default function WeeklyCalendar() {
     );
   };
 
+  function getDayEvents(date) {
+    if (events == null) return date;
+
+    date.events = [];
+
+    for (var i = 0; i < 10; i++) {
+      events[i].date = events[i].date.replace(/(\r\n|\n|\r)/gm, "");
+
+      var eventDate = parseISO(events[i].date);
+
+      if (isSameDay(eventDate, date)) {
+        date.events.push(events[i]);
+        console.log(date, events[i]);
+        console.log(date, date.events);
+        console.log(events[i].date + events[i].title);
+      }
+    }
+
+    return date.events;
+  }
+
+  function getWeekEvents() {
+    let startDate = startOfWeek(selectedDate, { weekStartsOn: 1 });
+    let endDate = endOfWeek(selectedDate, { weekStartsOn: 1 });
+
+    let day = startDate;
+    let days = [];
+
+    while (day <= endDate) {
+      day.events = getDayEvents(day);
+      days.push(day);
+      day = addDays(day, 1);
+    }
+    console.log("WWeek days:", days);
+    return days;
+  }
+
+  useEffect(() => {
+    setWeekDays(getWeekEvents());
+  }, []);
+
   return (
     <div className="flex flex-col ">
       <div
         ref={container}
-        className="isolate flex flex-auto flex-col overflow-auto bg-calendar-deepblue-hover rounded-3xl"
+        className="isolate flex flex-auto flex-col overflow-auto rounded-3xl bg-calendar-deepblue-hover"
       >
         <div
           style={{ width: "165%" }}
@@ -130,62 +188,20 @@ export default function WeeklyCalendar() {
 
             <div className="-mr-px hidden grid-cols-7 border-b border-gray-600 text-sm leading-6 text-gray-500 sm:grid">
               <div className="col-end-1 w-14" />
-              <div className="flex items-center justify-center py-3 text-moon-gold">
-                <span>
-                  Mon{" "}
-                  <span className="items-center justify-center font-semibold text-gray-900">
-                    10
+
+              {weekDays.map((day) => (
+                <div className="flex items-center justify-center py-3 text-moon-gold" onClick={() => {setSelectedDate(day)}}>
+                  <span className={classNames( 
+                      isSameDay(day, selectedDate)?"flex items-baseline":"")}>
+                    {format(day, "EEE") + " "}
+                    <span className={classNames( 
+                      isSameDay(day, selectedDate)?
+                      "ml-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white":"items-center justify-center font-semibold text-gray-200")}>
+                      {getDate(day)}
+                    </span>
                   </span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3 text-moon-gold">
-                <span>
-                  Tue{" "}
-                  <span className="items-center justify-center font-semibold text-gray-900">
-                    11
-                  </span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3 text-moon-gold">
-                <span className="flex items-baseline">
-                  Wed{" "}
-                  <span className="ml-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white">
-                    12
-                  </span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3 text-moon-gold">
-                <span>
-                  Thu{" "}
-                  <span className="items-center justify-center font-semibold text-gray-900">
-                    13
-                  </span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3 text-moon-gold">
-                <span>
-                  Fri{" "}
-                  <span className="items-center justify-center font-semibold text-gray-900">
-                    14
-                  </span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3 text-moon-gold">
-                <span>
-                  Sat{" "}
-                  <span className="items-center justify-center font-semibold text-gray-900">
-                    15
-                  </span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3 text-moon-gold">
-                <span>
-                  Sun{" "}
-                  <span className="items-center justify-center font-semibold text-gray-900">
-                    16
-                  </span>
-                </span>
-              </div>
+                </div>
+              ))}
             </div>
           </div>
           <div className="flex flex-auto ">

@@ -33,7 +33,6 @@ function classNames(...classes) {
 
 function getLastMonday(date) {
   while (getDay(date) != 1) {
-    console.log("subdays", date, getDay(date))
     date = subDays(date, 1);
   }
   return date;
@@ -41,14 +40,13 @@ function getLastMonday(date) {
 
 function getNextSunday(date) {
   while (getDay(date) != 0) {
-    console.log("addDays", date, getDay(date))
     date = addDays(date, 1);
   }
   return date;
 }
 
 
-export default function MonthlyCalendar({ selectedDate, events }) {
+export default function MonthlyCalendar({ selectedDate, setSelectedDate, events }) {
 
   const [monthEvents, setMonthEvents] = useState([]);
 
@@ -76,15 +74,12 @@ export default function MonthlyCalendar({ selectedDate, events }) {
   
 
   function getMonthEvents(){
-    const days = [];
 
     let startDate = getLastMonday(startOfWeek(startOfMonth(selectedDate), {weekStartsOn:1}));
     let endDate = getNextSunday(endOfWeek(lastDayOfMonth(selectedDate), {weekStartsOn:1}));
-    console.log("enddate:",endDate)
-    console.log("seldate:", selectedDate)
-    console.log("lastdayMonth", lastDayOfMonth(selectedDate), endOfWeek(lastDayOfMonth(selectedDate)), getNextSunday(endOfWeek(lastDayOfMonth(selectedDate))) )
 
     let day = startDate;
+    let days = [];
 
     while (day <= endDate) {
       day.events = getDayEvents(day);
@@ -136,11 +131,12 @@ export default function MonthlyCalendar({ selectedDate, events }) {
                     : "bg-calendar-deepblue-hover text-gray-200",
                   "relative py-2 px-3"
                 )}
+                onClick={() => {setSelectedDate(day)}}
               >
                 <time
                   dateTime={day.toString()}
                   className={
-                    isToday(day)
+                    isSameDay(day, selectedDate)
                       ? "flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white"
                       : undefined
                   }
