@@ -29,7 +29,11 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function WeeklyCalendar({ selectedDate, setSelectedDate, events }) {
+export default function WeeklyCalendar({
+  selectedDate,
+  setSelectedDate,
+  events,
+}) {
   const [weekDays, setWeekDays] = useState([]);
 
   const container = useRef(null);
@@ -86,7 +90,7 @@ export default function WeeklyCalendar({ selectedDate, setSelectedDate, events }
     return date.events;
   }
 
-  function getWeekEvents() {
+  function getWeekdaysEvents() {
     let startDate = startOfWeek(selectedDate, { weekStartsOn: 1 });
     let endDate = endOfWeek(selectedDate, { weekStartsOn: 1 });
 
@@ -102,8 +106,21 @@ export default function WeeklyCalendar({ selectedDate, setSelectedDate, events }
     return days;
   }
 
+  function getWeekEvents(){
+    let weekevents = []
+    for(var i = 0; i < weekDays.length; i++){
+      if(weekDays[i].events != [] ){
+        weekevents.push(...weekDays[i].events)
+      }
+    }
+
+    console.log("Wek events:", weekevents)
+
+    return(weekevents);
+  }
+
   useEffect(() => {
-    setWeekDays(getWeekEvents());
+    setWeekDays(getWeekdaysEvents());
   }, [selectedDate]);
 
   return (
@@ -121,82 +138,50 @@ export default function WeeklyCalendar({ selectedDate, setSelectedDate, events }
             className="sticky top-0 z-30 flex-none bg-calendar-deepblue shadow ring-1 ring-black ring-opacity-5"
           >
             <div className="grid grid-cols-7 text-sm leading-6 text-gray-200 sm:hidden">
-              <button
-                type="button"
-                className="flex flex-col items-center pt-2 pb-3"
-              >
-                M{" "}
-                <span className="mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900">
-                  10
-                </span>
-              </button>
-              <button
-                type="button"
-                className="flex flex-col items-center pt-2 pb-3"
-              >
-                T{" "}
-                <span className="mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900">
-                  11
-                </span>
-              </button>
-              <button
-                type="button"
-                className="flex flex-col items-center pt-2 pb-3"
-              >
-                W{" "}
-                <span className="mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white">
-                  12
-                </span>
-              </button>
-              <button
-                type="button"
-                className="flex flex-col items-center pt-2 pb-3"
-              >
-                T{" "}
-                <span className="mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900">
-                  13
-                </span>
-              </button>
-              <button
-                type="button"
-                className="flex flex-col items-center pt-2 pb-3"
-              >
-                F{" "}
-                <span className="mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900">
-                  14
-                </span>
-              </button>
-              <button
-                type="button"
-                className="flex flex-col items-center pt-2 pb-3"
-              >
-                S{" "}
-                <span className="mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900">
-                  15
-                </span>
-              </button>
-              <button
-                type="button"
-                className="flex flex-col items-center pt-2 pb-3"
-              >
-                S{" "}
-                <span className="mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900">
-                  16
-                </span>
-              </button>
+
+              {weekDays.map((day) => (
+                <button
+                  type="button"
+                  className="flex flex-col items-center pt-2 pb-3"
+                  onClick={() => {
+                    setSelectedDate(day);
+                  }}
+                >
+                  {format(day, "EEEEE") + " "}
+                  <span className={classNames(
+                    isSameDay(day, selectedDate)
+                          ? "rounded-full bg-indigo-600 font-semibold text-white"
+                          : "font-semibold text-gray-400", "mt-1 flex h-8 w-8 items-center justify-center"
+                  )}>
+                    {getDate(day)}
+                  </span>
+                </button>
+              ))}
             </div>
 
             <div className="-mr-px hidden grid-cols-7 border-b border-gray-600 text-sm leading-6 text-gray-500 sm:grid">
               <div className="col-end-1 w-14" />
 
               {weekDays.map((day) => (
-                <div className="flex items-center justify-center py-3 text-moon-gold" onClick={() => {setSelectedDate(day)}}>
-                  <span className={classNames( 
-                      isSameDay(day, selectedDate)?"flex items-baseline":"")}>
+                <div
+                  className="flex items-center justify-center py-3 text-moon-gold"
+                  onClick={() => {
+                    setSelectedDate(day);
+                  }}
+                >
+                  <span
+                    className={classNames(
+                      isSameDay(day, selectedDate) ? "flex items-baseline" : ""
+                    )}
+                  >
                     {format(day, "EEE") + " "}
-                    <span className={classNames( 
-                      isSameDay(day, selectedDate)?
-                      "ml-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white":"items-center justify-center font-semibold text-gray-200")}>
+                    <span
+                      className={classNames(
+                        isSameDay(day, selectedDate)
+                          ? "ml-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white"
+                          : "items-center justify-center font-semibold text-gray-200"
+                      )}
+                    >
                       {getDate(day)}
                     </span>
                   </span>
@@ -377,6 +362,26 @@ export default function WeeklyCalendar({ selectedDate, setSelectedDate, events }
                   gridTemplateRows: "1.75rem repeat(288, minmax(0, 1fr)) auto",
                 }}
               >
+                {getWeekEvents().map((event) => (
+                    <li
+                      className='relative mt-px flex sm:col-start-2'
+                      style={{ gridRow: "8 / span 12" }}
+                    >
+                      <a
+                        href={event.href}
+                        className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-blue-50 p-2 text-xs leading-5 hover:bg-blue-100"
+                      >
+                        <p className="order-1 font-semibold text-blue-700">
+                          {event.title}
+                        </p>
+                        <p className="text-blue-500 group-hover:text-blue-700">
+                          <time dateTime="2022-01-12T06:00">6:00 AM</time>
+                        </p>
+                      </a>
+                    </li>
+                  )
+                )}
+
                 <li
                   className="relative mt-px flex sm:col-start-3"
                   style={{ gridRow: "8 / span 12" }}
