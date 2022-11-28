@@ -104,7 +104,7 @@ export default function WeeklyCalendar({ selectedDate, setSelectedDate, events }
 
   useEffect(() => {
     setWeekDays(getWeekEvents());
-  }, []);
+  }, [selectedDate]);
 
   return (
     <div className="flex flex-col ">
