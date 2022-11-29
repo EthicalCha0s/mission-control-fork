@@ -43,6 +43,10 @@ export default function MonthlyCalendar({ selectedDate, setSelectedDate, events 
   const [monthEvents, setMonthEvents] = useState([]);
 
   function getDayEvents(date) {  
+    /*
+    Gets all events on specified date
+    */
+
     if (events == null)
       return date;
   
@@ -63,6 +67,9 @@ export default function MonthlyCalendar({ selectedDate, setSelectedDate, events 
   
 
   function getMonthEvents(){
+    /*
+    Gets all days of the selected month, with their respective events.
+    */
 
     let startDate = getLastMonday(startOfWeek(startOfMonth(selectedDate), {weekStartsOn:1}));
     let endDate = getNextSunday(endOfWeek(lastDayOfMonth(selectedDate), {weekStartsOn:1}));

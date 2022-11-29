@@ -27,17 +27,10 @@ export default function WeeklyCalendar({
   const containerNav = useRef(null);
   const containerOffset = useRef(null);
 
-  useEffect(() => {
-    const currentMinute = new Date().getHours() * 60;
-    container.current.scrollTop =
-      ((container.current.scrollHeight -
-        containerNav.current.offsetHeight -
-        containerOffset.current.offsetHeight) *
-        currentMinute) /
-      1440;
-  }, []);
-
   function getDayEvents(date) {
+    /*
+    Gets all events on the specified date.
+    */
     if (events == null) return date;
 
     date.events = [];
@@ -56,6 +49,9 @@ export default function WeeklyCalendar({
   }
 
   function getWeekdaysEvents() {
+    /*
+    Gets all days of the selected week, with their respective events.
+    */
     let startDate = startOfWeek(selectedDate, { weekStartsOn: 1 });
     let endDate = endOfWeek(selectedDate, { weekStartsOn: 1 });
 
@@ -71,6 +67,9 @@ export default function WeeklyCalendar({
   }
 
   function getWeekEvents(){
+    /*
+    Returns array of events which occur on the selected week.
+    */
     let weekevents = []
     for(var i = 0; i < weekDays.length; i++){
       if(weekDays[i].events != [] ){
