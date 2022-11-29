@@ -37,25 +37,6 @@ export default function WeeklyCalendar({
       1440;
   }, []);
 
-  const drawEventCard = (timestamp, title) => {
-    return (
-      <li
-        className="relative mt-px flex sm:col-start-3"
-        style={{ gridRow: "8 / span 12" }}
-      >
-        <a
-          href="#"
-          className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-blue-50 p-2 text-xs leading-5 hover:bg-blue-100"
-        >
-          <p className="order-1 font-semibold text-blue-700">Breakfast</p>
-          <p className="text-blue-500 group-hover:text-blue-700">
-            <time dateTime="2022-01-12T06:00">6:00 AM</time>
-          </p>
-        </a>
-      </li>
-    );
-  };
-
   function getDayEvents(date) {
     if (events == null) return date;
 
@@ -114,7 +95,7 @@ export default function WeeklyCalendar({
     <div className="flex flex-col ">
       <div
         ref={container}
-        className="isolate flex flex-auto flex-col overflow-auto rounded-3xl bg-calendar-deepblue-hover"
+        className="isolate flex flex-auto flex-col overflow-auto rounded-3xl bg-white dark:bg-calendar-deepblue-hover"
       >
         <div
           style={{ width: "165%" }}
@@ -122,9 +103,9 @@ export default function WeeklyCalendar({
         >
           <div
             ref={containerNav}
-            className="sticky top-0 z-30 flex-none bg-calendar-deepblue shadow ring-1 ring-black ring-opacity-5"
+            className="sticky top-0 z-30 flex-none bg-white dark:bg-calendar-deepblue shadow ring-1 ring-black ring-opacity-5"
           >
-            <div className="grid grid-cols-7 text-sm leading-6 text-gray-200 sm:hidden">
+            <div className="grid grid-cols-7 text-sm leading-6 text-black dark:text-gray-200 sm:hidden">
 
               {weekDays.map((day) => (
                 <button
@@ -137,8 +118,8 @@ export default function WeeklyCalendar({
                   {format(day, "EEEEE") + " "}
                   <span className={classNames(
                     isSameDay(day, selectedDate)
-                          ? "rounded-full bg-indigo-600 font-semibold text-white"
-                          : "font-semibold text-gray-400", "mt-1 flex h-8 w-8 items-center justify-center"
+                          ? "rounded-full bg-moon-blue font-semibold text-white"
+                          : "font-semibold text-gray-600 dark:text-gray-400", "mt-1 flex h-8 w-8 items-center justify-center"
                   )}>
                     {getDate(day)}
                   </span>
@@ -146,12 +127,12 @@ export default function WeeklyCalendar({
               ))}
             </div>
 
-            <div className="-mr-px hidden grid-cols-7 border-b border-gray-600 text-sm leading-6 text-gray-500 sm:grid">
+            <div className="-mr-px hidden grid-cols-7 border-b border-gray-200 dark:border-gray-600 text-sm leading-6 text-gray-500 sm:grid">
               <div className="col-end-1 w-14" />
 
               {weekDays.map((day) => (
                 <div
-                  className="flex items-center justify-center py-3 text-moon-gold"
+                  className="flex items-center justify-center py-3 text-black dark:text-moon-gold"
                   onClick={() => {
                     setSelectedDate(day);
                   }}
@@ -165,8 +146,8 @@ export default function WeeklyCalendar({
                     <span
                       className={classNames(
                         isSameDay(day, selectedDate)
-                          ? "ml-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white"
-                          : "items-center justify-center font-semibold text-gray-200"
+                          ? "ml-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-moon-blue font-semibold text-white"
+                          : "items-center justify-center font-semibold text-gray-600 dark:text-gray-200"
                       )}
                     >
                       {getDate(day)}
@@ -177,11 +158,11 @@ export default function WeeklyCalendar({
             </div>
           </div>
           <div className="flex flex-auto ">
-            <div className="sticky left-0 z-10 w-14 flex-none bg-calendar-deepblue ring-1 ring-gray-100" />
+            <div className="sticky left-0 z-10 w-14 flex-none bg-white dark:bg-calendar-deepblue ring-1 ring-gray-100" />
             <div className="grid flex-auto grid-cols-1 grid-rows-1">
               {/* Horizontal lines */}
               <div
-                className="col-start-1 col-end-2 row-start-1 grid divide-y divide-gray-600"
+                className="col-start-1 col-end-2 row-start-1 grid divide-y divide-gray-200 dark:divide-gray-600"
                 style={{ gridTemplateRows: "repeat(48, minmax(3.5rem, 1fr))" }}
               >
                 <div ref={containerOffset} className="row-end-1 h-7"></div>
@@ -332,7 +313,7 @@ export default function WeeklyCalendar({
               </div>
 
               {/* Vertical lines */}
-              <div className="col-start-1 col-end-2 row-start-1 hidden grid-cols-7 grid-rows-1 divide-x divide-gray-600 sm:grid sm:grid-cols-7">
+              <div className="col-start-1 col-end-2 row-start-1 hidden grid-cols-7 grid-rows-1 divide-x divide-gray-200 dark:divide-gray-600 sm:grid sm:grid-cols-7">
                 <div className="col-start-1 row-span-full" />
                 <div className="col-start-2 row-span-full" />
                 <div className="col-start-3 row-span-full" />

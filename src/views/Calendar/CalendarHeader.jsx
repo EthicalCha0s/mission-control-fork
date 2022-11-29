@@ -47,7 +47,7 @@ export default function CalendarHeader({
 
   return (
     <header className="flex items-center justify-between  py-4 px-6 lg:flex-none">
-      <h1 className="text-lg font-semibold text-gray-200">
+      <h1 className="text-lg font-semibold dark:text-gray-200 text-moon-deepblue">
         <time dateTime="2022-01">{format(selectedDate, "MMMM yyyy")}</time>
       </h1>
       <div className="flex items-center">
@@ -153,7 +153,7 @@ export default function CalendarHeader({
           <div className="ml-6 h-6 w-px bg-gray-300" />
           <button
             type="button"
-            className="ml-6 flex items-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="ml-6 flex items-center rounded-md border border-transparent bg-moon-blue py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-calendar-deepblue-hover focus:outline-none focus:ring-2 focus:ring-moon-blue focus:ring-offset-2"
             onClick={() => {
               navigator.clipboard.writeText(calendarLink);
             }}
