@@ -26,8 +26,7 @@ export default function CalendarHeader({
   setSelectedDate,
   isMonthlyView,
   setIsMonthlyView,
-  calendarLink,
-  monthNames,
+  calendarLink
 }) {
   const nextMonth = () => {
     setSelectedDate(addMonths(selectedDate, 1));

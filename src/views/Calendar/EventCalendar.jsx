@@ -10,20 +10,6 @@ export default function EventCalendar() {
 
   const calendarLink =
     "https://sesh.fyi/api/calendar/v2/1NtkbbR6C4pu9nfgPwPGQn.ics";
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
 
   function getEventData() {
     var request = new XMLHttpRequest();
@@ -65,7 +51,6 @@ export default function EventCalendar() {
         isMonthlyView={isMonthlyView}
         setIsMonthlyView={setIsMonthlyView}
         calendarLink={calendarLink}
-        monthNames={monthNames}
       />
 
       {/* Calendar */}
