@@ -1,25 +1,17 @@
 import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
   ClockIcon,
-  EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
-import { Menu, Transition } from "@headlessui/react";
 import {
   addDays,
   subDays,
   getDay,
   getDate,
-  getMonth,
-  getYear,
   startOfWeek,
   endOfWeek,
   lastDayOfMonth,
   startOfMonth,
   isSameMonth,
   isToday,
-  setMonth,
   isSameDay,
   parseISO,
   format
@@ -97,7 +89,7 @@ export default function MonthlyCalendar({ selectedDate, setSelectedDate, events 
   return (
     <div className="overflow-hidden rounded-3xl">
       <div className="rounded-xl shadow  ring-1 ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
-        <div className="grid grid-cols-7 gap-px border-b border-gray-600 bg-calendar-deepblue text-center text-xs font-semibold leading-6 text-moon-gold lg:flex-none">
+      <div className="grid grid-cols-7 gap-px border-b border-gray-600 bg-calendar-deepblue text-center text-xs font-semibold leading-6 text-moon-gold lg:flex-none">
           <div className="bg-calendar-deepblue py-2">
             M<span className="sr-only sm:not-sr-only">on</span>
           </div>
