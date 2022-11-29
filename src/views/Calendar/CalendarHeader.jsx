@@ -8,11 +8,8 @@ import {
 } from "@heroicons/react/20/solid";
 import { Menu, Transition } from "@headlessui/react";
 import {
-  getMonth,
-  getYear,
   addMonths,
   isToday,
-  toDate,
   format,
   addWeeks,
 } from "date-fns";

@@ -20,33 +20,13 @@ export default function WeeklyCalendar({
   selectedDate,
   setSelectedDate,
   events,
+  getDayEvents
 }) {
   const [weekDays, setWeekDays] = useState([]);
 
   const container = useRef(null);
   const containerNav = useRef(null);
   const containerOffset = useRef(null);
-
-  function getDayEvents(date) {
-    /*
-    Gets all events on the specified date.
-    */
-    if (events == null) return date;
-
-    date.events = [];
-
-    for (var i = 0; i < Object.keys(events).length; i++) {
-      events[i].date = events[i].date.replace(/(\r\n|\n|\r)/gm, "");
-
-      var eventDate = parseISO(events[i].date);
-
-      if (isSameDay(eventDate, date)) {
-        date.events.push(events[i]);
-      }
-    }
-
-    return date.events;
-  }
 
   function getWeekdaysEvents() {
     /*

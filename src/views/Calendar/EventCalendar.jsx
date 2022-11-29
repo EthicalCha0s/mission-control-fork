@@ -2,6 +2,7 @@ import WeeklyCalendar from "./WeeklyCalendar";
 import CalendarHeader from "./CalendarHeader";
 import MonthlyCalendar from "./MonthlyCalendar";
 import { useState, useEffect } from "react";
+import { parseISO, isSameDay } from "date-fns";
 
 export default function EventCalendar() {
   const [isMonthlyView, setIsMonthlyView] = useState(true);
@@ -39,6 +40,27 @@ export default function EventCalendar() {
     };
   }
 
+  function getDayEvents(date) {
+    /*
+    Gets all events on the specified date.
+    */
+    if (calendarEvents == null) return date;
+
+    date.calendarEvents = [];
+
+    for (var i = 0; i < Object.keys(calendarEvents).length; i++) {
+      calendarEvents[i].date = calendarEvents[i].date.replace(/(\r\n|\n|\r)/gm, "");
+
+      var eventDate = parseISO(calendarEvents[i].date);
+
+      if (isSameDay(eventDate, date)) {
+        date.calendarEvents.push(calendarEvents[i]);
+      }
+    }
+
+    return date.calendarEvents;
+  }
+
   useEffect(() => {
     getEventData();
   }, []);
@@ -56,12 +78,18 @@ export default function EventCalendar() {
       {/* Calendar */}
 
       {isMonthlyView ? (
-        <MonthlyCalendar selectedDate={selectedDate} events={calendarEvents} setSelectedDate={setSelectedDate}/>
+        <MonthlyCalendar 
+          selectedDate={selectedDate}
+          events={calendarEvents} 
+          setSelectedDate={setSelectedDate} 
+          getDayEvents={getDayEvents}
+        />
       ) : (
         <WeeklyCalendar
           selectedDate={selectedDate}
           events={calendarEvents}
           setSelectedDate={setSelectedDate}
+          getDayEvents={getDayEvents}
         />
       )}
 

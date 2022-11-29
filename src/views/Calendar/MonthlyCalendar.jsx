@@ -38,33 +38,13 @@ function getNextSunday(date) {
 }
 
 
-export default function MonthlyCalendar({ selectedDate, setSelectedDate, events }) {
-
-  const [monthEvents, setMonthEvents] = useState([]);
-
-  function getDayEvents(date) {  
-    /*
-    Gets all events on specified date
-    */
-
-    if (events == null)
-      return date;
-  
-    date.events = [];
-  
-    for(var i = 0; i < Object.keys(events).length; i++){
-      events[i].date = events[i].date.replace(/(\r\n|\n|\r)/gm, "");
-
-      var eventDate = parseISO(events[i].date);
-
-      if(isSameDay(eventDate, date)){
-        date.events.push(events[i]);
-      }
-    }
-    
-    return date.events;
-  }
-  
+export default function MonthlyCalendar({ 
+  selectedDate, 
+  setSelectedDate, 
+  events,
+  getDayEvents
+}) {
+  const [monthEvents, setMonthEvents] = useState([]);  
 
   function getMonthEvents(){
     /*
@@ -186,7 +166,7 @@ export default function MonthlyCalendar({ selectedDate, setSelectedDate, events 
                       "flex h-6 w-6 items-center justify-center rounded-full","ml-auto"
                   )}
                 >
-                  {getDate(day)} {/* {day.toString().split("-").pop().replace(/^0/, "")} */}
+                  {getDate(day)}
                 </time>
                 <span className="sr-only">{day.events.length} events</span>
                 {day.events.length > 0 && (
