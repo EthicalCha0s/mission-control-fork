@@ -56,7 +56,7 @@ export default function MonthlyCalendar({ selectedDate, setSelectedDate, events 
   
     date.events = [];
   
-    for(var i = 0; i < 10; i++){
+    for(var i = 0; i < Object.keys(events).length; i++){
       events[i].date = events[i].date.replace(/(\r\n|\n|\r)/gm, "");
 
       var eventDate = parseISO(events[i].date);
@@ -92,7 +92,7 @@ export default function MonthlyCalendar({ selectedDate, setSelectedDate, events 
 
   useEffect(() => {
     setMonthEvents(getMonthEvents())
-  }, [selectedDate]);
+  }, [selectedDate, events]);
 
   return (
     <div className="overflow-hidden rounded-3xl">

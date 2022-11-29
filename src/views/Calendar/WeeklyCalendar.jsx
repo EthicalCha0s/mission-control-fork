@@ -74,7 +74,7 @@ export default function WeeklyCalendar({
 
     date.events = [];
 
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < Object.keys(events).length; i++) {
       events[i].date = events[i].date.replace(/(\r\n|\n|\r)/gm, "");
 
       var eventDate = parseISO(events[i].date);
@@ -121,7 +121,7 @@ export default function WeeklyCalendar({
 
   useEffect(() => {
     setWeekDays(getWeekdaysEvents());
-  }, [selectedDate]);
+  }, [selectedDate, events]);
 
   return (
     <div className="flex flex-col ">
