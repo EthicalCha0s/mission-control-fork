@@ -219,6 +219,34 @@ export default function MonthlyCalendar({ selectedDate, setSelectedDate, events 
           </div>
         </div>
       </div>
+
+      {getDayEvents(selectedDate)?.length > 0 && (
+        <div className="py-10 px-4 sm:px-6 lg:hidden">
+          <ol className="divide-y divide-gray-100 overflow-hidden rounded-lg bg-white text-sm shadow ring-1 ring-black ring-opacity-5">
+            {getDayEvents(selectedDate).map((event) => (
+              <li
+                key={event.date + event.title}
+                className="group flex p-4 pr-6 focus-within:bg-gray-50 hover:bg-gray-50"
+              >
+                <div className="flex-auto">
+                  <p className="font-semibold text-gray-900">{event.title}</p>
+                  <time
+                    dateTime={event.date}
+                    className="mt-2 flex items-center text-gray-700"
+                  >
+                    <ClockIcon
+                      className="mr-2 h-5 w-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                    {format( parseISO(event.date), "hh:mm aaaaa'm'")} 
+                  </time>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
+
     </div>
   );
 }
