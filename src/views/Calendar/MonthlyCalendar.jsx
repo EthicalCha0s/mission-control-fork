@@ -55,9 +55,6 @@ export default function MonthlyCalendar({ selectedDate, setSelectedDate, events 
 
       if(isSameDay(eventDate, date)){
         date.events.push(events[i]);
-        console.log(date, events[i])
-        console.log(date, date.events)
-        console.log(events[i].date + events[i].title)
       }
     }
     

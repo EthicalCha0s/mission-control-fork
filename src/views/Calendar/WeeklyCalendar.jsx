@@ -49,9 +49,6 @@ export default function WeeklyCalendar({
 
       if (isSameDay(eventDate, date)) {
         date.events.push(events[i]);
-        console.log(date, events[i]);
-        console.log(date, date.events);
-        console.log(events[i].date + events[i].title);
       }
     }
 
@@ -70,7 +67,6 @@ export default function WeeklyCalendar({
       days.push(day);
       day = addDays(day, 1);
     }
-    console.log("WWeek days:", days);
     return days;
   }
 
@@ -81,8 +77,6 @@ export default function WeeklyCalendar({
         weekevents.push(...weekDays[i].events)
       }
     }
-
-    console.log("Wek events:", weekevents)
 
     return(weekevents);
   }

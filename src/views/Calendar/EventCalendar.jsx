@@ -47,7 +47,6 @@ export default function EventCalendar() {
               events_i++;
             }
           }
-          // console.log(events)
           setCalendarEvents(events);
         }
       }
@@ -56,7 +55,6 @@ export default function EventCalendar() {
 
   useEffect(() => {
     getEventData();
-    console.log("Selected date:", selectedDate);
   }, []);
 
   return (

@@ -137,9 +137,7 @@ export default function CalendarHeader({
                           "block w-full px-4 py-2 text-sm"
                         )}
                         onClick={() => {
-                          console.log("Git mnobt", isMonthlyView);
                           setIsMonthlyView(true);
-                          console.log(isMonthlyView);
                         }}
                       >
                         Month view
