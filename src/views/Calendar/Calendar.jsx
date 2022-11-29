@@ -1,4 +1,3 @@
-import { PageLayout } from "../../components/Layout";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import EventCalendar from "./EventCalendar";
 
