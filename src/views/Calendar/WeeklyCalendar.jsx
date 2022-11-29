@@ -23,6 +23,8 @@ import {
   isSameDay,
   parseISO,
   format,
+  getHours,
+  getMinutes
 } from "date-fns";
 
 function classNames(...classes) {
@@ -364,8 +366,13 @@ export default function WeeklyCalendar({
               >
                 {getWeekEvents().map((event) => (
                     <li
-                      className='relative mt-px flex sm:col-start-2'
-                      style={{ gridRow: "8 / span 12" }}
+                      className={classNames(isSameDay(selectedDate, parseISO(event.date))? 
+                        `col-start-1 sm:col-start-${getDay(parseISO(event.date)) == 0? 7 :getDay(parseISO(event.date))}`:
+                        `invisible sm:visible sm:col-start-${getDay(parseISO(event.date)) == 0? 7 :getDay(parseISO(event.date))}`,
+                        'relative mt-px flex '
+                        )}
+                      // style={{ gridRow: "2 / span 12" }}
+                      style={{ gridRow: `${(getHours(parseISO(event.date)) * 12) + (getMinutes(parseISO(event.date)) * 0.1) + 2} / span 12` }}
                     >
                       <a
                         href={event.href}
@@ -375,61 +382,12 @@ export default function WeeklyCalendar({
                           {event.title}
                         </p>
                         <p className="text-blue-500 group-hover:text-blue-700">
-                          <time dateTime="2022-01-12T06:00">6:00 AM</time>
+                          <time dateTime="2022-01-12T06:00">{format(parseISO(event.date), "hh:mm aaaaa'm")} </time>
                         </p>
                       </a>
                     </li>
                   )
                 )}
-
-                <li
-                  className="relative mt-px flex sm:col-start-3"
-                  style={{ gridRow: "8 / span 12" }}
-                >
-                  <a
-                    href="#"
-                    className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-blue-50 p-2 text-xs leading-5 hover:bg-blue-100"
-                  >
-                    <p className="order-1 font-semibold text-blue-700">
-                      Breakfast
-                    </p>
-                    <p className="text-blue-500 group-hover:text-blue-700">
-                      <time dateTime="2022-01-12T06:00">6:00 AM</time>
-                    </p>
-                  </a>
-                </li>
-                <li
-                  className="relative mt-px flex sm:col-start-3"
-                  style={{ gridRow: "92 / span 30" }}
-                >
-                  <a
-                    href="#"
-                    className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-pink-50 p-2 text-xs leading-5 hover:bg-pink-100"
-                  >
-                    <p className="order-1 font-semibold text-pink-700">
-                      Flight to Paris
-                    </p>
-                    <p className="text-pink-500 group-hover:text-pink-700">
-                      <time dateTime="2022-01-12T07:30">7:30 AM</time>
-                    </p>
-                  </a>
-                </li>
-                <li
-                  className="relative mt-px hidden sm:col-start-6 sm:flex"
-                  style={{ gridRow: "122 / span 24" }}
-                >
-                  <a
-                    href="#"
-                    className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-gray-100 p-2 text-xs leading-5 hover:bg-gray-200"
-                  >
-                    <p className="order-1 font-semibold text-gray-700">
-                      Meeting with design team at Disney
-                    </p>
-                    <p className="text-gray-500 group-hover:text-gray-700">
-                      <time dateTime="2022-01-15T10:00">10:00 AM</time>
-                    </p>
-                  </a>
-                </li>
               </ol>
             </div>
           </div>
